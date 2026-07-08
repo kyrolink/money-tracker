@@ -31,6 +31,7 @@ export default function ConfirmModal({
         </Button>
 
         <button
+          type="button"
           onClick={() => {
             onConfirm();
             onClose();
