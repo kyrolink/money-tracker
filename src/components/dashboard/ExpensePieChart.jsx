@@ -9,18 +9,23 @@ import {
 
 import useApp from "../../hooks/useApp";
 
-import { generateExpensePieData } from "../../utils/dashboard";
+import { generatePieData } from "../../utils/dashboard";
 
 import { formatCurrency } from "../../utils/format";
 
 import { Label } from "recharts";
 
+import { useState } from "react";
+
 export default function ExpensePieChart({transactions}) {
   const { state } = useApp();
 
-  const data = generateExpensePieData(
+  const [chartType, setChartType] = useState("expense");
+
+  const data = generatePieData(
     transactions,
-    state.categories
+    state.categories,
+    chartType
   );
 
   const totalExpense = data.reduce(
@@ -33,9 +38,43 @@ export default function ExpensePieChart({transactions}) {
 
       <h2 className="text-xl font-bold mb-5">
 
-        Expense by Category
+        Expense / Income by Category
 
       </h2>
+      
+      <div className="flex justify-between items-center mb-5">
+
+        <h2 className="text-xl font-bold">
+
+            {chartType === "expense"
+                ? "Expense by Category"
+                : "Income by Category"}
+
+        </h2>
+
+        <select
+            value={chartType}
+            onChange={(e)=>
+                setChartType(e.target.value)
+            }
+            className="border rounded-lg px-3 py-2 text-sm"
+        >
+
+            <option value="expense">
+
+                Expense
+
+            </option>
+
+            <option value="income">
+
+                Income
+
+            </option>
+
+        </select>
+
+    </div>
 
       <ResponsiveContainer
         width="100%"

@@ -24,15 +24,17 @@ export function generateIncomeExpenseChart(transactions) {
   );
 }
 
-export function generateExpensePieData(
+export function generatePieData(
   transactions,
-  categories
+  categories,
+  type = "expense"
 ) {
   const result = {};
 
   transactions
-    .filter((trx) => trx.type === "expense")
+    .filter((trx) => trx.type === type)
     .forEach((trx) => {
+
       const category = categories.find(
         (item) => item.id === trx.categoryId
       );
@@ -48,6 +50,7 @@ export function generateExpensePieData(
       }
 
       result[category.name].value += trx.amount;
+
     });
 
   return Object.values(result);
